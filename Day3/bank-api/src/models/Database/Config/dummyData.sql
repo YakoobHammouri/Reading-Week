@@ -27,6 +27,3 @@ VALUES
 RETURNING ID;
 
 
-
-
-select * from blood_banks;
