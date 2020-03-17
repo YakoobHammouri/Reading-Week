@@ -11,14 +11,14 @@
  The GET EndPoint in system :
  
       1. /patients
-      1. /donors
-      1. /bloodBanks
+      2. /donors
+      3. /bloodBanks
       
  The POST EndPoint is system :
  
- 1. /patient/Add
- 1. /donor/Add
- 1. /bloodBank/Add
+    1. /patient/Add
+    2. /donor/Add
+    3. /bloodBank/Add
  
  
  
