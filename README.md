@@ -8,6 +8,8 @@
   
   # Day 3
  in this Day we Create Database with just 3 tables to focus in code , and we create the test of get , post endpoint
+ 
+ 
  The GET EndPoint in system :
  
       1. /patients
