@@ -1,12 +1,11 @@
-const db_user = require('./../models/class/db_user');
+const dbUser = require('../models/class/db_user');
 
-const validation = require('../Helpers/validation');
+const validation = require('../helpers/validation');
 
-const responseMessages = require('../Helpers/responseMessage');
+const responseMessages = require('../helpers/responseMessage');
 
 // check if the emile in database
 // if email in database return true;
-//
 const checkUserEmailIfExist = (req, res, next) => {
   const data = !req.body ? null : req.body;
   if (!data) {
@@ -15,11 +14,13 @@ const checkUserEmailIfExist = (req, res, next) => {
       .json(
         responseMessages.InternalErrorMessage(
           null,
-          'Sorry Some Error Happened at registration please try again later'
-        )
+          'Sorry Some Error Happened at registration please try again later',
+        ),
       );
   }
+
   const { error } = validation.emilValidation({ email: data.email });
+
   if (error !== undefined) {
     // return error message if not valid
     return res
@@ -27,34 +28,34 @@ const checkUserEmailIfExist = (req, res, next) => {
       .json(
         responseMessages.FailedMessage(
           null,
-          'Oops !' + error.toString().replace('ValidationError:', '')
-        )
+          `Oops !${error.toString().replace('ValidationError:', '')}`,
+        ),
       );
   }
-  db_user
+  dbUser
     .getUserByEmail(data.email)
-    .then(data => {
-      if (data.rowCount >= 1) {
+    .then((result) => {
+      if (result.rowCount >= 1) {
         res
           .status(400)
           .json(
             responseMessages.FailedMessage(
               null,
-              'The Email you entered is used in system'
-            )
+              '<a href="/login ">The Email you entered is used in system , Try to Login click Here</a>',
+            ),
           );
         return;
       }
       next();
     })
-    .catch(err => {
-      return res
+    .catch((err) => {
+      res
         .status(500)
         .json(
           responseMessages.InternalErrorMessage(
             null,
-            'Sorry Some Error Happened at registration please try again later'
-          )
+            'Sorry Some Error Happened at registration please try again later',
+          ),
         );
       return next(err);
     });
