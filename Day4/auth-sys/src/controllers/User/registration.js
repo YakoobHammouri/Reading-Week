@@ -1,30 +1,27 @@
 require('dotenv').config();
 
-const db_user = require('../../models/class/db_user');
-
-const validation = require('../../Helpers/validation');
-
-const responseMessages = require('../../Helpers/responseMessage');
-
-const jwt = require('jsonwebtoken');
-
-const convereter = require('./../../Helpers/converter');
-
 const { v4: uuidv4 } = require('uuid');
 
-const registration = (req, res, next) => {
-  console.log('startt registretd');
+const dbUser = require('../../models/class/db_user');
 
+const validation = require('../../helpers/validation');
+
+const responseMessages = require('../../helpers/responseMessage');
+
+const generateToken = require('../../helpers/generateToken');
+
+const registration = (req, res, next) => {
   const data = !req.body ? null : req.body;
-  if (!data)
+  if (!data) {
     return res
       .status(500)
       .json(
         responseMessages.InternalErrorMessage(
           null,
-          'Sorry Some Error Happened at registration please try again later'
-        )
+          'Sorry Some Error Happened at registration please try again later',
+        ),
       );
+  }
 
   const { error } = validation.registrationValidation(data);
 
@@ -37,37 +34,34 @@ const registration = (req, res, next) => {
 
     return res
       .status(400)
-      .json(responseMessages.FailedMessage(null, 'Oops ! ' + errorMessage));
+      .json(responseMessages.FailedMessage(null, `Oops ! ${errorMessage}`));
   }
-  //=====================================================================================
+  //= ====================================================================================
   // insert user
   data.gid = uuidv4();
-  db_user
+  dbUser
     .insertUser(data)
-    .then(result => {
-      const acces_token = jwt.sign(
-        { id: convereter.EnCode(data.gid) },
-        process.env.acces_Token_secret
-      );
-      res.cookie('token', acces_token);
+    .then((result) => {
+      const accesToken = generateToken(data.gid);
+      res.cookie('token', accesToken);
       res.status(200).json(
         responseMessages.successMessage(
           {
-            token: acces_token,
-            row: result.rowCount
+            token: accesToken,
+            row: result.rowCount,
           },
-          ' Thank you \n  Successfully Registration , we will redirect to your profile'
-        )
+          ' Thank you \n  Successfully Registration , we will redirect to your profile',
+        ),
       );
     })
-    .catch(err => {
+    .catch((err) => {
       res
         .status(500)
         .json(
           responseMessages.InternalErrorMessage(
             null,
-            'Sorry Some Error Happened at registration please try again later'
-          )
+            'Sorry Some Error Happened at registration please try again later',
+          ),
         );
       return next(err);
     });

@@ -13,7 +13,7 @@
         <div class="container">
             <div class="row">
                 <div class="navbar__nav ">
-                    <form method="POST" action="/user/logout">
+                    <form method="POST" action="/auth/user/logout">
                         <button type="submit" class="btn btn-blue">Logout</button>
                     </form>
 
@@ -23,13 +23,16 @@
     </header>
 
     <div class="maindiv">
-        <section class="">
-            <h1>
-                if you see this page , this means you are Successfully Registration , and login
-            </h1>
+        <h1>
+            if you see this page , this means you are Successfully Registration , and login
+        </h1>
+        <section id="user-data" class="">
+
         </section>
     </div>
 
+    <script src="/js/main.js"></script>
+    <script src="/js/userProfile.js"></script>
 </body>
 
 </html>

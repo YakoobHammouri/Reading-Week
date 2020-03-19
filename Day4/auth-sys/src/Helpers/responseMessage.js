@@ -3,33 +3,33 @@ module.exports = {
   successMessage: (data, messag) => ({
     status: 200,
     messag,
-    data
+    data,
   }),
   FaildLoginMessage: (data, messag) => ({
     status: 403,
     messag,
-    data
+    data,
   }),
   FailedMessage: (data, messag) => ({
     status: 400,
     messag,
-    data
+    data,
   }),
 
   UnauthorizedMessage: (data, messag) => ({
     status: 401,
     messag,
-    data
+    data,
   }),
   NotFoundMessage: (data, messag) => ({
     status: 404,
     messag,
-    data
+    data,
   }),
 
   InternalErrorMessage: (data, messag) => ({
     status: 500,
     messag,
-    data
-  })
+    data,
+  }),
 };

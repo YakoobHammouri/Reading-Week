@@ -1,14 +1,4 @@
-window.onload = () => {
-  const registrationForm = getElement('registration');
-
-  if (registrationForm != undefined) {
-    registrationForm.addEventListener('submit', Registration);
-  }
-};
-
-const getElement = id => document.getElementById(id);
-
-const Registration = e => {
+const Registration = (e) => {
   e.preventDefault();
 
   const message = getElement('message');
@@ -20,7 +10,7 @@ const Registration = e => {
 
   if (!password.value && !repassword.value) {
     message.innerHTML = 'the password and re-password Required';
-    showMessage(message, '');
+    showMessage(message);
     return;
   }
 
@@ -33,23 +23,23 @@ const Registration = e => {
   }
 
   hiddenMessage(message);
-  const data = {
+  const obj = {
     name: fullName.value,
     email: Email.value,
     phone: tel.value,
     password: password.value,
-    repassword: repassword.value
+    repassword: repassword.value,
   };
   fetch('/api/user/registration', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(obj),
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       if (data.status === 200) {
         alert(data.messag);
         window.location.replace('/me');
@@ -58,27 +48,18 @@ const Registration = e => {
         password.innerHTML = null;
         repassword.innerHTML = null;
         showMessage(message);
-        return;
       }
     })
-    .catch(err => {
+    .catch((err) => {
       alert('Sorry Error happened , try again later');
       console.log(err);
     });
 };
 
-const showMessage = item => {
-  if (!item) return;
+window.onload = () => {
+  const registrationForm = getElement('registration');
 
-  if (item.classList.contains('hidden') && !item.classList.contains('show')) {
-    item.classList.remove('hidden');
-    item.classList.add('show');
-  }
-};
-
-const hiddenMessage = item => {
-  if (item.classList.contains('show') && !item.classList.contains('hidden')) {
-    item.classList.remove('show');
-    item.classList.add('hidden');
+  if (registrationForm !== undefined) {
+    registrationForm.addEventListener('submit', Registration);
   }
 };

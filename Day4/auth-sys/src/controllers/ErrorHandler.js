@@ -4,7 +4,6 @@ const error404 = (req, res) => {
 
 const error500 = (err, req, res, next) => {
   console.log(err);
-
   res.status(500).send('Internal Error 500');
 };
 

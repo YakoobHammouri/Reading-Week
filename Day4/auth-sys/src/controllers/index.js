@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-const staticRouter = require('./Static');
-const userRouter = require('./User');
-const authRouter = require('./Auth');
+const staticRouter = require('./static');
+const userRouter = require('./user');
+const authRouter = require('./auth');
 
 router.use(staticRouter);
 router.use(userRouter);

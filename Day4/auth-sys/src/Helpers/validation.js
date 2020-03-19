@@ -1,6 +1,6 @@
 const joi = require('@hapi/joi');
 
-const registrationValidation = data => {
+const registrationValidation = (data) => {
   const schema = joi
     .object({
       name: joi
@@ -21,7 +21,7 @@ const registrationValidation = data => {
         .string()
         .required()
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
-      repassword: joi.ref('password')
+      repassword: joi.ref('password'),
     })
     .with('password', 'repassword');
 
@@ -32,20 +32,20 @@ const registrationValidation = data => {
   return schema.validate(data);
 };
 
-const emilValidation = data => {
+const emilValidation = (data) => {
   const schema = joi.object({
     email: joi
       .string()
       .min(6)
       .required()
-      .email()
+      .email(),
   });
 
   return schema.validate(data);
 };
 
-const logInValidation = data => {
-  const schema = {
+const logInValidation = (data) => {
+  const schema = joi.object({
     email: joi
       .string()
       .min(6)
@@ -53,14 +53,13 @@ const logInValidation = data => {
       .email(),
     password: joi
       .string()
-      .min(6)
       .required()
-  };
-
-  return joi.valid(data, schema);
+      .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+  });
+  return schema.validate(data);
 };
 
-const V4UUIDValidation = uuid => {
+const V4UUIDValidation = (uuid) => {
   const uuidV4Regex = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i;
   return uuidV4Regex.test(uuid);
 };
@@ -69,5 +68,5 @@ module.exports = {
   registrationValidation,
   logInValidation,
   V4UUIDValidation,
-  emilValidation
+  emilValidation,
 };

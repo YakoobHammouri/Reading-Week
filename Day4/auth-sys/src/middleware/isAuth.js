@@ -1,5 +1,6 @@
+require('dotenv').config();
+
 const { verify } = require('jsonwebtoken');
-const { SECRET } = process.env;
 
 const isAuth = (req, res, next) => {
   const token = !req.cookies ? null : req.cookies.token;
@@ -13,11 +14,11 @@ const isAuth = (req, res, next) => {
         .clearCookie('token')
         .json({
           status: 'error',
-          message: 'unauthorised'
+          message: 'unauthorised',
         });
     }
     req.user = decoded;
-    next();
+    return next();
   });
 };
 
