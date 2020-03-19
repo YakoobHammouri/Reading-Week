@@ -25,6 +25,22 @@ const registrationValidation = data => {
     })
     .with('password', 'repassword');
 
+  // .messages({
+  //   "any.ref": "tteetr"
+  // });
+
+  return schema.validate(data);
+};
+
+const emilValidation = data => {
+  const schema = joi.object({
+    email: joi
+      .string()
+      .min(6)
+      .required()
+      .email()
+  });
+
   return schema.validate(data);
 };
 
@@ -49,4 +65,9 @@ const V4UUIDValidation = uuid => {
   return uuidV4Regex.test(uuid);
 };
 
-module.exports = { registrationValidation, logInValidation, V4UUIDValidation };
+module.exports = {
+  registrationValidation,
+  logInValidation,
+  V4UUIDValidation,
+  emilValidation
+};
