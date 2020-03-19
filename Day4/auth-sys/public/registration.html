@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration - Auth Sys</title>
+    <link href="/css/main.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="row">
+                <div class="navbar__nav ">
+                    <a href="/">Home</a>
+                    <a href="/registration">Registration</a>
+                    <a href="/login">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="maindiv">
+        <section class="">
+            <div class="container">
+                <div class="row" id="">
+
+                    <div id="Form" class="form">
+                        <form id='registration' method="POST">
+
+                            <div class="input-from">
+                                <label for="name">Full Name</label>
+                                <input type="text" placeholder="Enter your full name" id="name" name="name"
+                                    class="form-control" required />
+                            </div>
+
+                            <div class="input-from">
+                                <label for="email">Email</label>
+                                <input type="email" placeholder="Enter your Email" id="email" name="email"
+                                    class="form-control" required />
+                            </div>
+
+                            <div class="input-from">
+                                <label for="phone">phone</label>
+                                <input type="tel" placeholder="Enter your phone  number" id="phone" name="phone"
+                                    class="form-control" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" />
+                            </div>
+
+                            <div class="input-from">
+                                <label for="password"> Password</label>
+                                <input type="password" placeholder="Enter your password" id="password" name="password"
+                                    class="form-control" required />
+                            </div>
+
+
+                            <div class="input-from">
+                                <label for="repassword">re-Password</label>
+                                <input type="password" placeholder="Enter your Re-password" id="repassword"
+                                    name="repassword" class="form-control" required />
+                            </div>
+
+                            <button id="subButt" type="submit" name="subButt" class="btn btn-blue">
+                                Submit
+                            </button>
+                        </form>
+                        <br />
+                        <label id="message" class="alert alert-danger hidden">Tests</label>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="/js/registration.js"></script>
+</body>
+
+</html>
