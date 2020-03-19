@@ -21,6 +21,15 @@
     1. /patient/Add
     2. /donor/Add
     3. /bloodBank/Add
+    
+    
+     ---
+  
+  # Day 4
+ in this Day we Create simple Registration app with validation in clinet and server side  
+
+
+ 
  
  
  
