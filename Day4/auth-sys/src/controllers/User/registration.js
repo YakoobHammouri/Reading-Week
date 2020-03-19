@@ -13,65 +13,44 @@ const convereter = require('./../../Helpers/converter');
 const { v4: uuidv4 } = require('uuid');
 
 const registration = (req, res, next) => {
-  console.log(req.body);
+  console.log('startt registretd');
 
   const data = !req.body ? null : req.body;
   if (!data)
-    return res.json(
-      responseMessages.InternalErrorMessage(
-        null,
-        'Sorry Some Error Happened at registration please try again later'
-      )
-    );
-
-  const { error } = validation.registrationValidation(data);
-
-  if (error !== undefined) {
-    // return error message if not valid
-    return res.json(
-      responseMessages.FailedMessage(
-        null,
-        'Oops !' + error.toString().replace('ValidationError:', '')
-      )
-    );
-  }
-
-  // checx if emeil in system
-  db_user
-    .getUserByEmail(data.email)
-    .then(data => {
-      if (data.rowCount > 1) {
-        res.json(
-          responseMessages.FailedMessage(
-            null,
-            'The Email you entered is in used in system'
-          )
-        );
-        return;
-      }
-    })
-    .catch(err => {
-      res.json(
+    return res
+      .status(500)
+      .json(
         responseMessages.InternalErrorMessage(
           null,
           'Sorry Some Error Happened at registration please try again later'
         )
       );
-      return next(err);
-    });
 
+  const { error } = validation.registrationValidation(data);
+
+  if (error !== undefined) {
+    // return error message if not valid
+
+    const errorMessage = error.toString().includes('[ref:password]')
+      ? 'the password not match , please re-Enter password'
+      : error.toString().replace('ValidationError:', '');
+
+    return res
+      .status(400)
+      .json(responseMessages.FailedMessage(null, 'Oops ! ' + errorMessage));
+  }
+  //=====================================================================================
   // insert user
   data.gid = uuidv4();
   db_user
     .insertUser(data)
     .then(result => {
-      console.log(convereter.EnCode(data.gid));
       const acces_token = jwt.sign(
         { id: convereter.EnCode(data.gid) },
         process.env.acces_Token_secret
       );
       res.cookie('token', acces_token);
-      res.json(
+      res.status(200).json(
         responseMessages.successMessage(
           {
             token: acces_token,
@@ -82,12 +61,14 @@ const registration = (req, res, next) => {
       );
     })
     .catch(err => {
-      res.json(
-        responseMessages.InternalErrorMessage(
-          null,
-          'Sorry Some Error Happened at registration please try again later'
-        )
-      );
+      res
+        .status(500)
+        .json(
+          responseMessages.InternalErrorMessage(
+            null,
+            'Sorry Some Error Happened at registration please try again later'
+          )
+        );
       return next(err);
     });
 };
