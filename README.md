@@ -26,8 +26,17 @@
     
   ---
   # Day 4
- in this Day we Create simple Registration app with validation in clinet and server side  
-
+ in this Day we Create simple Registration app with validation in clinet and server side with Test
+ 
+ The Test Case:
+ 
+    1. test 404
+    2. test registration
+    3. test duplicate Email
+    4. test password length
+    5. test the password not match
+   
+    
 
  
  
